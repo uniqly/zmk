@@ -4,13 +4,16 @@
  * SPDX-License-Identifier: MIT
  *
  */
-
 #include <zephyr/kernel.h>
 #include <zephyr/bluetooth/services/bas.h>
 #include <zephyr/random/rand32.h>
 
 #include <zephyr/logging/log.h>
-LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
+
+#define RIGHT capoo // replace with custom art
+
+LV_IMG_DECLARE(RIGHT);
+
 
 #include <zmk/display.h>
 #include "peripheral_status.h"
@@ -22,9 +25,8 @@ LOG_MODULE_DECLARE(zmk, CONFIG_ZMK_LOG_LEVEL);
 #include <zmk/usb.h>
 #include <zmk/ble.h>
 
-#define RIGHT capoo // replace with custom art
-
-LV_IMG_DECLARE(RIGHT);
+LV_IMG_DECLARE(balloon);
+LV_IMG_DECLARE(mountain);
 
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
@@ -111,14 +113,13 @@ int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
     widget->obj = lv_obj_create(parent);
     lv_obj_set_size(widget->obj, 160, 68);
     lv_obj_t *top = lv_canvas_create(widget->obj);
-    lv_obj_align(top, LV_ALIGN_TOP_RIGHT, DISP_WIDTH, 0);
-    lv_canvas_set_buffer(top, widget->cbuf, DISP_WIDTH, 20, LV_IMG_CF_TRUE_COLOR);
+    lv_obj_align(top, LV_ALIGN_TOP_RIGHT, 0, 0);
+    lv_canvas_set_buffer(top, widget->cbuf, CANVAS_SIZE, CANVAS_SIZE, LV_IMG_CF_TRUE_COLOR);
 
     lv_obj_t *art = lv_img_create(widget->obj);
-    //bool random = sys_rand32_get() & 1;
-    //lv_img_set_src(art, random ? &balloon : &mountain);
-    lv_img_set_src(art, &RIGHT);
-    //obj_align(art, LV_ALIGN_TOP_LEFT, 0, 0);
+    bool random = sys_rand32_get() & 1;
+    lv_img_set_src(art, random ? &balloon : &mountain);
+    lv_obj_align(art, LV_ALIGN_TOP_LEFT, 0, 0);
 
     sys_slist_append(&widgets, &widget->node);
     widget_battery_status_init();
