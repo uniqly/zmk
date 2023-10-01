@@ -10,11 +10,6 @@
 
 #include <zephyr/logging/log.h>
 
-#define RIGHT capoo // replace with custom art
-
-LV_IMG_DECLARE(RIGHT);
-
-
 #include <zmk/display.h>
 #include "peripheral_status.h"
 #include <zmk/events/usb_conn_state_changed.h>
@@ -25,8 +20,9 @@ LV_IMG_DECLARE(RIGHT);
 #include <zmk/usb.h>
 #include <zmk/ble.h>
 
-LV_IMG_DECLARE(balloon);
-LV_IMG_DECLARE(mountain);
+#define RIGHT capoo // replace with custom art
+
+LV_IMG_DECLARE(RIGHT);
 
 static sys_slist_t widgets = SYS_SLIST_STATIC_INIT(&widgets);
 
@@ -118,7 +114,7 @@ int zmk_widget_status_init(struct zmk_widget_status *widget, lv_obj_t *parent) {
 
     lv_obj_t *art = lv_img_create(widget->obj);
     bool random = sys_rand32_get() & 1;
-    lv_img_set_src(art, &right);
+    lv_img_set_src(art, &RIGHT);
     lv_obj_align(art, LV_ALIGN_TOP_LEFT, 0, 0);
 
     sys_slist_append(&widgets, &widget->node);
