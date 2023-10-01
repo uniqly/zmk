@@ -10,6 +10,7 @@
 
 #define DISP_WIDTH 68
 #define ANIM_SIZE 64
+#define CANVAS_SIZE 68
 
 #define PADDING 4
 #define BATTERY_HEIGHT 17
